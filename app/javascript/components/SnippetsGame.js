@@ -1,9 +1,12 @@
 import React, { useEffect, useState } from 'react';
+import SnippetCard from './SnippetCard';
+import ExpandedSnippet from './ExpandedSnippet';
 
 function SnippetsGame() {
   const [snippets, setSnippets] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [selectedSnippet, setSelectedSnippet] = useState(null);
 
   const fetchSnippets = () => {
     setLoading(true);
@@ -28,31 +31,39 @@ function SnippetsGame() {
     return <div>Error loading snippets: {error.message}</div>;
   }
 
-  return (
-    <div className="container mt-4">
-      <h2 className="mb-4">Lyric Snippets</h2>
-      <button
-        className="btn btn-primary mb-3"
-        onClick={fetchSnippets}
-        disabled={loading}
+  if (loading) {
+    return <div>Loading snippets...</div>;
+  }
+
+  if (selectedSnippet) {
+    return (
+      <div
+        className="d-flex justify-content-center align-items-center"
+        style={{ minHeight: '80vh' }}
       >
-        {loading ? 'Loading...' : 'Get New Snippets'}
-      </button>
-      <ul className="list-group">
-        {snippets.map(snippet => (
-          <li key={snippet.id} className="list-group-item">
-            <blockquote className="blockquote">
-              <p className="mb-0">{snippet.snippet}</p>
-              <footer className="blockquote-footer">
-                {snippet.artist} — <cite title="Song">{snippet.song}</cite>
-              </footer>
-            </blockquote>
-            <p>
-              <strong>Difficulty:</strong> {snippet.difficulty}
-            </p>
-          </li>
-        ))}
-      </ul>
+        <ExpandedSnippet snippet={selectedSnippet} />
+      </div>
+    );
+  }
+
+
+  return (
+    <div
+      className="d-flex justify-content-center align-items-center"
+      style={{ minHeight: '80vh' }}
+    >
+      <div className="container">
+        <div className="row">
+          {snippets.map(snippet => (
+            <div key={snippet.id} className="col-md-6">
+              <SnippetCard
+                snippet={snippet}
+                onClick={() => setSelectedSnippet(snippet)}
+              />
+            </div>
+          ))}
+        </div>
+      </div>
     </div>
   );
 }
