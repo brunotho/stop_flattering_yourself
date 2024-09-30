@@ -1,4 +1,5 @@
 import React from 'react';
+import '../stylesheets/_button_styles.scss'
 
 function ExpandedSnippet({ snippet }) {
   const handleSuccess = () => {
@@ -21,11 +22,11 @@ function ExpandedSnippet({ snippet }) {
               {snippet.snippet}
             </p>
           </div>
-          <div className="text-left p-2" style={{ flexShrink: 0 }}>
-            <button className="btn btn-success mr-2" onClick={handleSuccess}>
+          <div className="result-button-container p-2" style={{ flexShrink: 0 }}>
+            <button className="result-button success" onClick={handleSuccess}>
               :)
             </button>
-            <button className="btn btn-danger" onClick={handleFailure}>
+            <button className="result-button failure" onClick={handleFailure}>
               :(
             </button>
           </div>

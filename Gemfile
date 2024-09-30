@@ -68,7 +68,10 @@ gem "rails-controller-testing"
 
 gem 'sassc-rails'
 gem 'bootstrap', '~> 5.3.3'
-# gem 'react-rails' # This will allow you to use React with Rails
+# gem 'react-rails'
 
 
 gem 'webpacker', '~> 5.0'
+gem 'simple_form'
+
+gem 'devise'

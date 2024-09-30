@@ -1,11 +1,11 @@
-User.destroy_all
+# User.destroy_all
 LyricSnippet.destroy_all
 
-users = User.create!([
-  { name: "Banana Bob", email: "bob@banana.com", password_hash: "hash_bob", password_salt: "salt_bob" },
-  { name: "50 Cent", email: "fiddy@rich.com", password_hash: "hash_fiddy", password_salt: "salt_fiddy" },
-  { name: "Angela Merkel", email: "angela@bundestag.de", password_hash: "hash_angela", password_salt: "salt_angela" }
-])
+# users = User.create!([
+#   { name: "Banana Bob", email: "bob@banana.com", password_hash: "hash_bob", password_salt: "salt_bob" },
+#   { name: "50 Cent", email: "fiddy@rich.com", password_hash: "hash_fiddy", password_salt: "salt_fiddy" },
+#   { name: "Angela Merkel", email: "angela@bundestag.de", password_hash: "hash_angela", password_salt: "salt_angela" }
+# ])
 
 LyricSnippet.create!([
   { snippet: "Hey, Shawty, we could be friends", artist: "50 Cent", song: "Poor Lil Rich", difficulty: 300 },

@@ -22,25 +22,4 @@ ActiveRecord::Schema[7.2].define(version: 2024_09_28_143425) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
-
-  create_table "user_snippets", force: :cascade do |t|
-    t.bigint "user_id", null: false
-    t.bigint "lyric_snippet_id", null: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["lyric_snippet_id"], name: "index_user_snippets_on_lyric_snippet_id"
-    t.index ["user_id"], name: "index_user_snippets_on_user_id"
-  end
-
-  create_table "users", force: :cascade do |t|
-    t.string "name"
-    t.string "email"
-    t.string "password_hash"
-    t.string "password_salt"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-  end
-
-  add_foreign_key "user_snippets", "lyric_snippets"
-  add_foreign_key "user_snippets", "users"
 end

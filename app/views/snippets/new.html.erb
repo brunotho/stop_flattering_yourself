@@ -1,31 +1,11 @@
-<h1>New Snippet</h1>
 
-<%= form_with(url: snippets_path, model: @lyric_snippet, local: true) do |form| %>
-
-
-  <div class="field">
-    <%= form.label :snippet %>
-    <%= form.text_area :snippet %>
-  </div>
-
-  <div class="field">
-    <%= form.label :artist %>
-    <%= form.text_field :artist %>
-  </div>
-
-  <div class="field">
-    <%= form.label :song %>
-    <%= form.text_field :song %>
-  </div>
-
-  <div class="field">
-    <%= form.label :difficulty %>
-    <%= form.number_field :difficulty, in: 1..1000 %>
-  </div>
-
-  <div class="actions">
-    <%= form.submit "Create Snippet" %>
-  </div>
-<% end %>
-
-<%= link_to 'Back', welcome_home_path %>
+<div class="container" style="width: 50vh">
+  <h3 class="mb-4">Add a New Snippet</h3>
+  <%= simple_form_for @lyric_snippet, url: snippets_path do |f| %>
+    <%= f.input :snippet, as: :text, input_html: { rows: 2 } %>
+    <%= f.input :artist %>
+    <%= f.input :song %>
+    <div id="difficulty-slider"></div>
+    <%= f.button :submit, 'Create Snippet', class: 'btn btn-primary mt-4' %>
+  <% end %>
+</div>

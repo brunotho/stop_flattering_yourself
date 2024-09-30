@@ -7,12 +7,12 @@ class SnippetsController < ApplicationController
   end
 
   def create
-    snippet = LyricSnippet.new(snippet_params)
+    @lyric_snippet = LyricSnippet.new(snippet_params)
 
-    if snippet.save
-      render json: snippet, status: :created
+    if @lyric_snippet.save
+      render :thank_you
     else
-      render json: snippet.errors, status: :unprocessable_entity
+      render :new, status: :unprocessable_entity
     end
   end
 
