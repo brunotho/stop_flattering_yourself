@@ -3,10 +3,6 @@ source "https://rubygems.org"
 # Bundle edge Rails instead: gem "rails", github: "rails/rails", branch: "main"
 gem "rails", "~> 7.2.1"
 
-
-gem 'bootstrap'
-
-
 # The original asset pipeline for Rails [https://github.com/rails/sprockets-rails]
 gem "sprockets-rails"
 # Use postgresql as the database for Active Record
@@ -65,6 +61,17 @@ group :test do
   gem 'webdrivers'
 end
 
-gem "sassc-rails", "~> 2.1"
 gem 'importmap-rails'
 gem "rails-controller-testing"
+
+# gem "webpacker", "~> 5.4"
+
+gem 'sassc-rails'
+gem 'bootstrap', '~> 5.3.3'
+# gem 'react-rails'
+
+
+gem 'webpacker', '~> 5.0'
+gem 'simple_form'
+
+gem 'devise'

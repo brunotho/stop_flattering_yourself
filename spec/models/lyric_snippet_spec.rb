@@ -9,4 +9,3 @@ RSpec.describe LyricSnippet, type: :model do
     it { should validate_inclusion_of(:difficulty).in_range(1..1000) }
   end
 end
-

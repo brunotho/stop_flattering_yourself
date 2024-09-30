@@ -1,0 +1,35 @@
+.result-button-container {
+  display: flex;
+  gap: 10px;
+}
+
+.result-button {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  font-size: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  cursor: pointer;
+  transition: transform 0.1s ease-in-out;
+
+  &:hover {
+    transform: scale(1.05);
+  }
+
+  &:active {
+    transform: scale(0.95);
+  }
+
+  &.success {
+    background-color: #7dc38d;
+    color: white;
+  }
+
+  &.failure {
+    background-color: #ab5e66;
+    color: white;
+  }
+}

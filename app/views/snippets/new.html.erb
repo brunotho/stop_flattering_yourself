@@ -1,0 +1,11 @@
+
+<div class="container" style="width: 50vh">
+  <h3 class="mb-4">Add a New Snippet</h3>
+  <%= simple_form_for @lyric_snippet, url: snippets_path do |f| %>
+    <%= f.input :snippet, as: :text, input_html: { rows: 2 } %>
+    <%= f.input :artist %>
+    <%= f.input :song %>
+    <div id="difficulty-slider"></div>
+    <%= f.button :submit, 'Create Snippet', class: 'btn btn-primary mt-4' %>
+  <% end %>
+</div>
