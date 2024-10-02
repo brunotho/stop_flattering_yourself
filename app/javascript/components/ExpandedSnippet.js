@@ -23,10 +23,10 @@ function ExpandedSnippet({ snippet }) {
             </p>
           </div>
           <div className="result-button-container p-2" style={{ flexShrink: 0 }}>
-            <button className="result-button success" onClick={handleSuccess}>
+            <button className="button-fancy" onClick={handleSuccess}>
               :)
             </button>
-            <button className="result-button failure" onClick={handleFailure}>
+            <button className="button-fancy" onClick={handleFailure}>
               :(
             </button>
           </div>
@@ -51,9 +51,7 @@ function ExpandedSnippet({ snippet }) {
           </div>
           <div className="flex-grow-1"></div>
           <div className="text-right p-2" style={{ flexShrink: 0 }}>
-            <p className="mb-1">
-              <strong>{snippet.song}</strong>
-            </p>
+            <p className="mb-1">{snippet.song}</p>
             <p className="mb-1">{snippet.artist}</p>
             <p className="mb-1">Points: {snippet.difficulty}</p>
           </div>
