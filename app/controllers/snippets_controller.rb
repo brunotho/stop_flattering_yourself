@@ -1,4 +1,6 @@
 class SnippetsController < ApplicationController
+  before_action :authenticate_user!, except: [ :index, :fetch_snippets ]
+
   def index
   end
 
@@ -17,13 +19,14 @@ class SnippetsController < ApplicationController
   end
 
   def fetch_snippets
-    snippets = LyricSnippet.order("RANDOM()").limit(4)
+    user_language = current_user&.language || "English"
+    snippets = LyricSnippet.where(language: user_language).order("RANDOM()").limit(4)
     render json: snippets
   end
 
   private
 
   def snippet_params
-    params.require(:lyric_snippet).permit(:snippet, :artist, :song, :difficulty)
+    params.require(:lyric_snippet).permit(:snippet, :artist, :song, :difficulty, :language)
   end
 end
