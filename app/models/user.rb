@@ -4,7 +4,15 @@ class User < ApplicationRecord
   devise :database_authenticatable, :registerable,
         :recoverable, :rememberable, :validatable
 
+  has_many :game_session_participants, dependent: :destroy
+  has_many :game_sessions, through: :game_session_participants
+  has_many :rounds
+
   # validates :language, inclusion: { in: %w[English German] }
 
-  private
+
+  def total_score
+    gamesession.where(self.id).rounds.each { |round| round.score }.sum
+  end
+
 end

@@ -1,2 +1,7 @@
-<div id="snippets-game">
+<div id="root">
+  <% if @game_session.present? %>
+    <%= react_component("SnippetsGame", { game_session_id: @game_session.id }) %>
+  <% else %>
+    <%= react_component("SnippetsGame") %>
+  <% end %>
 </div>

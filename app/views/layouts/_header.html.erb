@@ -3,6 +3,26 @@
     <%= link_to 'SnipSlip', root_path, data: { turbolinks: false }, class: 'navbar-brand' %>
 
     <%# score %>
+    <div>
+    </div>
+
+    <%# game session start %>
+    <div class="d-flex">
+      <% if user_signed_in? %>
+        <%= button_to "Start Single Player Game",
+            start_single_player_game_sessions_path,
+            class: "btn btn-success me-2",
+            data: { turbolinks: false },
+            method: :post
+        %>
+      <% else %>
+        <%= link_to "Start Single Player Game",
+            new_user_session_path,
+            class: "btn btn-success me-2",
+            data: { turbolinks: false, target: "_blank" }
+        %>
+      <% end %>
+    </div>
 
     <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar" aria-controls="offcanvasNavbar" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>

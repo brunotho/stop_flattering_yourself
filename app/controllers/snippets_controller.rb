@@ -2,6 +2,7 @@ class SnippetsController < ApplicationController
   before_action :authenticate_user!, except: [ :index, :fetch_snippets ]
 
   def index
+    @game_session = current_game_session
   end
 
   def new
@@ -14,7 +15,7 @@ class SnippetsController < ApplicationController
     if @lyric_snippet.save
       render :thank_you
     else
-      render :new, status: :unprocessable_entity
+      render :new, status: 422
     end
   end
 
