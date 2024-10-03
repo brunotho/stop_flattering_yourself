@@ -1,6 +1,5 @@
 class LyricSnippet < ApplicationRecord
-  has_many :user_snippets
-  has_many :users, through: :user_snippets
+  has_many :rounds
 
   validates :snippet, presence: true
   validates :artist, presence: true
@@ -12,6 +11,3 @@ class LyricSnippet < ApplicationRecord
     validators_on(:language).first.options[:in]
   end
 end
-
-
-

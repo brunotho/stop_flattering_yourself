@@ -1,6 +1,11 @@
 import React from 'react';
 
 function SnippetCard({ snippet, onClick }) {
+  if (!snippet) {
+    console.error('No snippet data provided to SnippetCard');
+    return <div>No snippet data available</div>;
+  }
+  
   return (
     <div
       className="card mb-4"
