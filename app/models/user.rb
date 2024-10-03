@@ -11,8 +11,7 @@ class User < ApplicationRecord
   # validates :language, inclusion: { in: %w[English German] }
 
 
-  def total_score
-    gamesession.where(self.id).rounds.each { |round| round.score }.sum
-  end
-
+  # def total_score
+  #   gamesession.where(self.id).rounds.each { |round| round.score }.sum
+  # end
 end

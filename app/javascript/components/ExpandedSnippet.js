@@ -1,13 +1,17 @@
 import React from 'react';
 import '../stylesheets/_button_styles.scss'
 
-function ExpandedSnippet({ snippet }) {
+function ExpandedSnippet({ snippet, onSubmit, game_session_id }) {
   const handleSuccess = () => {
-    console.log('Success submitted');
+    onSubmit(snippet.id, true);
   };
 
   const handleFailure = () => {
-    console.log('Failure submitted');
+    onSubmit(snippet.id, false);
+  };
+
+  const handleClose = () => {
+    onSubmit(null, null);
   };
 
   return (
@@ -23,12 +27,20 @@ function ExpandedSnippet({ snippet }) {
             </p>
           </div>
           <div className="result-button-container p-2" style={{ flexShrink: 0 }}>
-            <button className="button-fancy" onClick={handleSuccess}>
-              :)
-            </button>
-            <button className="button-fancy" onClick={handleFailure}>
-              :(
-            </button>
+            {game_session_id ? (
+              <>
+                <button className="button-fancy" onClick={handleSuccess}>
+                  :)
+                </button>
+                <button className="button-fancy" onClick={handleFailure}>
+                  :(
+                </button>
+              </>
+            ) : (
+              <button className="button-fancy" onClick={handleClose}>
+                Close
+              </button>
+            )}
           </div>
         </div>
 

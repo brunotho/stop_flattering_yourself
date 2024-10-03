@@ -11,7 +11,13 @@ function SnippetsGame({ game_session_id = null }) {
 
   const fetchSnippets = () => {
     setLoading(true);
-    fetch('/fetch_snippets')
+    fetch('/fetch_snippets', {
+      method: "GET",
+      headers: {
+        "Content_Type": "application/json",
+        "X-Requested-With": "XMLHttpRequest",
+      },
+    })
       .then(response => response.json())
       .then(data => {
         setSnippets(data);
@@ -27,7 +33,7 @@ function SnippetsGame({ game_session_id = null }) {
   const fetchScore = () => {
     if (!game_session_id) return;
 
-    fetch('/game_sessions/${game_sessions_id}.json')
+    fetch(`/game_sessions/${game_session_id}.json`)
       .then(response => response.json())
       .then(data => {
         setScore(data.successful_rounds_count);
@@ -37,21 +43,41 @@ function SnippetsGame({ game_session_id = null }) {
       });
   };
 
+  const fetchGameSessionData = () => {
+    if (!game_session_id) return;
+
+    fetch(`/game_sessions/${game_session_id}.json`, {
+      headers: {
+        "Accept": "application/json",
+        "X-Requested-With": "XMLHttpRequest",
+      },
+    })
+      .then(response => response.json ())
+      .then(data => {
+        setGameSessionData(data);
+      })
+      .catch(error => {
+        console.error("Error fetching game session data:", error);
+      });
+  };
+
   useEffect(() => {
+    console.log("snipgame comp mounted");
     fetchSnippets();
     fetchScore();
   }, []);
 
   const handleSubmit = (snippet_id, success) => {
-    if (!game_session_id) {
-      alert("quick play");
+    if (!game_session_id || snippet_id === null) {
+      setSelectedSnippet(null);
       return;
     }
 
-    fetch("/game_sessions/${game_session_id}/rounds", {
+    fetch(`/game_sessions/${game_session_id}/rounds`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
+        'X-Requested-With': 'XMLHttpRequest',
         "X-CSRF-Token": getCSRFToken(),
       },
       body: JSON.stringify({
@@ -82,12 +108,19 @@ function SnippetsGame({ game_session_id = null }) {
   };
 
   if (error) {
+    console.log("error", error);
+
     return <div>Error loading snippets: {error.message}</div>;
   }
 
   if (loading) {
+    console.log("loading...");
+
     return <div>Loading snippets...</div>;
   }
+
+  console.log("snippets loaded", snippets);
+
 
   if (selectedSnippet) {
     return (
@@ -95,12 +128,26 @@ function SnippetsGame({ game_session_id = null }) {
         className="d-flex justify-content-center align-items-center"
         style={{ minHeight: '80vh' }}
       >
-        <ExpandedSnippet snippet={selectedSnippet} />
+        <ExpandedSnippet
+          snippet={selectedSnippet}
+          onSubmit={handleSubmit}
+          game_session_id={game_session_id}
+        />
       </div>
     );
   }
 
   return (
+    <div>
+
+    <div className="session-info">
+  {game_session_id ? (
+    <p>Game Session ID: {game_session_id} | Score: {score}</p>
+  ) : (
+    <p>Quick Play Mode</p>
+  )}
+</div>
+
     <div
       className="d-flex justify-content-center align-items-center"
       style={{ minHeight: '80vh' }}
@@ -117,6 +164,8 @@ function SnippetsGame({ game_session_id = null }) {
           ))}
         </div>
       </div>
+    </div>
+
     </div>
   );
 }

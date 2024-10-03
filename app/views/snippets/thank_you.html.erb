@@ -1,3 +1,5 @@
 <div id="root"></div>
-<h1 class="mt-4" style="text-align: center;">Thanks <%= current_user.name.capitalize %>😍</h1>
-<div id="snippet-last"></div>
+<h1 class="mt-4" style="text-align: center;">Thanks <%= current_user.name %> 😍</h1>
+<div id="snippet-last"
+    data-snippet='<%= raw(@lyric_snippet.to_json) %>'
+></div>

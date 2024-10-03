@@ -68,7 +68,7 @@ gem "rails-controller-testing"
 
 gem 'sassc-rails'
 gem 'bootstrap', '~> 5.3.3'
-# gem 'react-rails'
+gem 'react-rails'
 
 
 gem 'webpacker', '~> 5.0'
