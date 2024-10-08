@@ -25,6 +25,7 @@ const initializeUserProfile = () => {
   }
 }
 
+// Clean up when navigating away
 document.addEventListener('turbolinks:before-render', () => {
   if (root) {
     root.unmount()
@@ -32,4 +33,5 @@ document.addEventListener('turbolinks:before-render', () => {
   }
 })
 
+// Initialize on Turbolinks load
 document.addEventListener('turbolinks:load', initializeUserProfile)

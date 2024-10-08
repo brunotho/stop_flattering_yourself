@@ -1,13 +1,24 @@
 import React, { useEffect, useState } from 'react';
 import SnippetCard from './SnippetCard';
 import ExpandedSnippet from './ExpandedSnippet';
+import GameProgressCard from './GameProgressCard';
 
-function SnippetsGame({ game_session_id = null }) {
+function SnippetsGame({ game_session_id = null, onSnippetComplete }) {
   const [snippets, setSnippets] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [selectedSnippet, setSelectedSnippet] = useState(null);
+  const [gameData, setGameData] = useState({
+    totalScore: 0,
+    roundsPlayed: 0,
+    successfulRoundsCount: 0,
+    status: true
+  });
+  const [roundHistory, setRoundHistory] = useState([]);
+
   const [score, setScore] = useState(0);
+  const [roundsPlayed, setRoundsPlayed] = useState(0);
+  const [gameCompleted, setGameCompleted] = useState(false);
 
   const fetchSnippets = () => {
     setLoading(true);
@@ -30,19 +41,6 @@ function SnippetsGame({ game_session_id = null }) {
       });
   };
 
-  const fetchScore = () => {
-    if (!game_session_id) return;
-
-    fetch(`/game_sessions/${game_session_id}.json`)
-      .then(response => response.json())
-      .then(data => {
-        setScore(data.successful_rounds_count);
-      })
-      .catch(error => {
-        console.error("Error fetching score:", error)
-      });
-  };
-
   const fetchGameSessionData = () => {
     if (!game_session_id) return;
 
@@ -52,20 +50,35 @@ function SnippetsGame({ game_session_id = null }) {
         "X-Requested-With": "XMLHttpRequest",
       },
     })
-      .then(response => response.json ())
+      .then(response => response.json())
       .then(data => {
-        setGameSessionData(data);
+        console.log('game session data:', data);
+        setGameData({
+          totalScore: data.total_score,
+          roundsPlayed: data.rounds_played,
+          successfulRoundsCount: data.successful_rounds_count,
+          status: data.status
+        });
+        // setScore(data.total_score);
+        // setRoundsPlayed(data.rounds_played);
+        // setGameCompleted(!data.status);
+
+        // if (!data.status) {
+        //   onSnippetComplete();
+        // }
       })
-      .catch(error => {
-        console.error("Error fetching game session data:", error);
-      });
+    .catch(error => {
+      console.error("Error fetching game session data:", error);
+    });
   };
 
   useEffect(() => {
-    console.log("snipgame comp mounted");
+    console.log("SnippetsGame component mounted");
+    if (game_session_id) {
+      fetchGameSessionData();
+    }
     fetchSnippets();
-    fetchScore();
-  }, []);
+  }, [game_session_id]);
 
   const handleSubmit = (snippet_id, success) => {
     if (!game_session_id || snippet_id === null) {
@@ -88,12 +101,38 @@ function SnippetsGame({ game_session_id = null }) {
       }),
     })
       .then(response => {
-        if(response.ok) {
+        if (!response.ok) {
+          throw new Error("Round submission failed #handleSubmit response !ok");
+        }
+        return response.json();
+      })
+      .then(data => {
+        const newGameData = {
+          totalScore: data.totalScore,
+          roundsPlayed: data.rounds_played,
+          status: data.status
+        };
+          // setScore(data.total_score);
+          // setRoundsPlayed(data.rounds_played);
+          // setGameCompleted(!data.status);
+        setGameData(newGameData);
+        const newRound = {
+          lyric_snippet: selectedSnippet,
+          score: data.round.score,
+          success: data.round.success
+        };
+
+        const updatedHistory = [...roundHistory, newRound];
+        setRoundHistory(updatedHistory);
+
+        if (!data.status) {
+          onSnippetComplete({
+            ...newGameData,
+            roundHistory: updatedHistory
+          });
+        } else {
           setSelectedSnippet(null);
           fetchSnippets();
-          fetchScore();
-        } else {
-          alert("Failed to submit round");
         }
       })
       .catch(error => {
@@ -138,34 +177,38 @@ function SnippetsGame({ game_session_id = null }) {
   }
 
   return (
-    <div>
+    <div className="flex gap-4">
+      <div className="flex-grow">
 
-    <div className="session-info">
-  {game_session_id ? (
-    <p>Game Session ID: {game_session_id} | Score: {score}</p>
-  ) : (
-    <p>Quick Play Mode</p>
-  )}
-</div>
-
-    <div
-      className="d-flex justify-content-center align-items-center"
-      style={{ minHeight: '80vh' }}
-    >
-      <div className="container">
-        <div className="row">
-          {snippets.map(snippet => (
-            <div key={snippet.id} className="col-md-6">
-              <SnippetCard
-                snippet={snippet}
-                onClick={() => setSelectedSnippet(snippet)}
-              />
+        {/* old div */}
+        <div
+          className="d-flex justify-content-center align-items-center"
+          style={{ minHeight: '80vh' }}
+          >
+          <div className="container">
+            <div className="row">
+              {snippets.map(snippet => (
+                <div key={snippet.id} className="col-md-6">
+                  <SnippetCard
+                    snippet={snippet}
+                    onClick={() => setSelectedSnippet(snippet)}
+                    />
+                </div>
+              ))}
             </div>
-          ))}
+          </div>
         </div>
-      </div>
-    </div>
 
+        <div className="w-64">
+          <GameProgressCard
+            totalScore={gameData.totalScore}
+            roundsPlayed={gameData.roundsPlayed}
+            successfulRoundsCount={gameData.successfulRoundsCount}
+            roundHistory={roundHistory}
+          />
+        </div>
+
+      </div>
     </div>
   );
 }
