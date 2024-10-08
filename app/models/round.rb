@@ -6,6 +6,6 @@ class Round < ApplicationRecord
   validates :success, inclusion: { in: [ true, false ] }
 
   def score
-    success ? lyric_snippet.difficulty : 0
+    success ? difficulty : 0
   end
 end

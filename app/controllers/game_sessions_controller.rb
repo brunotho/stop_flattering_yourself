@@ -1,17 +1,17 @@
 class GameSessionsController < ApplicationController
-  before_action :authenticate_user!, only: [ :start_single_player ]
+  before_action :authenticate_user! #, only: [ :start_single_player ]
 
   def show
     @game_session = current_user.game_sessions.find(params[:id])
 
-    respond_to do |format|
-      format.html
-      format.json { render json: game_session_data }
+    # respond_to do |format|
+      # format.html
+    if @game_session
+      render json: game_session_data(@game_session)
     end
   rescue ActiveRecord::RecordNotFound
     render json: { error: "Game session not found" }, status: 404
   end
-
 
   def start_single_player
     ActiveRecord::Base.transaction do
@@ -29,12 +29,13 @@ class GameSessionsController < ApplicationController
     @game_session.rounds.where(user: current_user, success: true).count
   end
 
-  def game_session_data
+  def game_session_data(game_session)
     {
-      game_session_id: @game_session.id,
-      current_round_number: @game_session.rounds.where(user: current_user).count + 1,
-      successful_rounds_count: @game_session.rounds.where(user: current_user, success: true).count,
-      total_score: @game_session.total_score(current_user)
+      game_session_id: game_session.id,
+      total_score: current_user.total_score,
+      successful_rounds_count: game_session.rounds.where(user: current_user, success: true).count,
+      rounds_played: game_session.rounds.where(user_id: current_user.id).count,
+      status: game_session.status
     }
   end
 end

@@ -25,6 +25,7 @@ function MainComponent() {
         <SnippetsGame onSnippetComplete={handleSnippetCompletion} />
       )}
       {!gameStarted && snippetCompleted && (
+        // render GameOver display{session_data}
         <HeroSection onPlay={handlePlay} />
       )}
     </div>

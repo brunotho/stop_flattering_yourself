@@ -1,5 +1,5 @@
 class LyricSnippet < ApplicationRecord
-  has_many :rounds
+  has_many :rounds, dependent: :destroy
 
   validates :snippet, presence: true
   validates :artist, presence: true
