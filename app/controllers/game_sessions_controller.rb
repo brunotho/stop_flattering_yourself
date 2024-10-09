@@ -18,7 +18,7 @@ class GameSessionsController < ApplicationController
       @game_session = current_user.game_sessions.create!
       # @game_session.game_session_participants.create!(user: current_user)
     end
-    redirect_to snippets_path, notice: "SP started"
+    redirect_to snippets_path
   rescue ActiveRecord::RecordInvalid => e
     redirect_to root_path, alert: "Failed to start session: #{e.message}"
   end

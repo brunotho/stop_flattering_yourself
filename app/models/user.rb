@@ -12,7 +12,7 @@ class User < ApplicationRecord
 
 
   def total_score
-    if (session = game_sessions.where(status: true).last)
+    if (session = game_sessions.last)
       session.rounds.where(user_id: id).map(&:score).compact.sum
     else
       0

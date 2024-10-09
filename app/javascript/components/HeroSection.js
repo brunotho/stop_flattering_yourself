@@ -2,7 +2,7 @@ import React from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPlay } from '@fortawesome/free-solid-svg-icons';
 
-function HeroSection({ }) {
+function HeroSection({ onPlay }) {
   return (
     <div
       className="jumbotron text-center d-flex flex-column justify-content-center"
@@ -10,7 +10,11 @@ function HeroSection({ }) {
     >
       <h1 className="display-4">Welcome playa!</h1>
       <p className="lead">Try to sneak in song lyrics into your conversations.</p>
-      <a href="/snippets" className="mt-4" style={{ cursor: "pointer" }}>
+      <div
+        className="mt-4"
+        style={{ cursor: "pointer" }}
+        onClick={onPlay}
+      >
         <FontAwesomeIcon
           icon={faPlay}
           size="4x"
@@ -18,7 +22,7 @@ function HeroSection({ }) {
           aria-label="Play"
           beat
         />
-      </a>
+      </div>
     </div>
   );
 }
