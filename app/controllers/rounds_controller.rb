@@ -17,10 +17,14 @@ class RoundsController < ApplicationController
 
       render json: {
         message: "Round created successfully",
-        round: @round.as_json(
-          only: [:id, :success, :score],
-          include: { lyric_snippet: { only: [:snippet] } }
-        ),
+        round: {
+          id: @round.id,
+          success: @round.success,
+          score: @round.score,
+          lyric_snippet: {
+            snippet: @round.lyric_snippet.snippet
+          }
+        },
         total_score: current_user.total_score,
         rounds_played: @game_session.rounds.where(user_id: current_user.id).count,
         successful_rounds_count: @game_session.rounds.where(user: current_user, success: true).count,

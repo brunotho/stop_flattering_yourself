@@ -1,4 +1,8 @@
 import React from 'react';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faCheck } from '@fortawesome/free-solid-svg-icons';
+import { faXmark } from '@fortawesome/free-solid-svg-icons';
+
 
 export default function GameProgressCard({
   totalScore = 0,
@@ -9,22 +13,24 @@ export default function GameProgressCard({
 }) {
   return (
     <div className="border p-4 rounded-lg">
-      <div className="flex justify-between mb-4">
-        <span className="font-bold">Score: {totalScore}</span>
-        <span>Rounds: {roundsPlayed}/{maxRounds}</span>
+      <div className="d-flex justify-content-between align-items-center">
+        <div className="font-bold">Score: {totalScore}</div>
+        <div>Rounds: {roundsPlayed}/{maxRounds}</div>
       </div>
-      <div className="mb-2">
-        Successful rounds: {successfulRoundsCount}
-      </div>
-      <div>
-        {roundHistory.map((round, index) => (
-          <div key={index} className="mb-2">
-            <div>{round.lyric_snippet && round.lyric_snippet.text}</div>
-            <div>Points: {round.score || 0}</div>
-            <div>Success: {round.success ? 'Yes' : 'No'}</div>
-          </div>
-        ))}
-      </div>
+
+      {roundHistory.length > 0 && (
+        <div className="mt-2">
+          {roundHistory.map((round, index) => (
+            <div key={index} className="p-1">
+              <div className="small text-muted">{round.success ?
+                <FontAwesomeIcon icon={faCheck} /> : <FontAwesomeIcon icon={faXmark} />}
+                {" "}
+                {round.lyric_snippet.snippet}
+              </div>
+            </div>
+          ))}
+        </div>
+      )}
     </div>
   );
 }

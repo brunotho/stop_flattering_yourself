@@ -55,8 +55,9 @@ document.addEventListener('DOMContentLoaded', () => {
   const rootElement = document.getElementById('root');
   if (rootElement) {
     console.log('Mounting MainComponent');
+    const gameSessionId = rootElement.dataset.gameSessionId;
     const root = createRoot(rootElement);
-    root.render(<MainComponent />);
+    root.render(<MainComponent gameSessionId={gameSessionId} />);
   }
 
   // Mount DifficultySlider
