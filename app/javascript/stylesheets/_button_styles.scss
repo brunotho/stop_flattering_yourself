@@ -3,36 +3,36 @@
   gap: 10px;
 }
 
-.result-button {
-  width: 180px;
-  height: 40px;
-  border-radius: 40%;
-  font-size: 24px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border: none;
-  cursor: pointer;
-  transition: transform 0.1s ease-in-out;
+// .result-button {
+//   width: 180px;
+//   height: 40px;
+//   border-radius: 40%;
+//   font-size: 24px;
+//   display: flex;
+//   align-items: center;
+//   justify-content: center;
+//   border: none;
+//   cursor: pointer;
+//   transition: transform 0.1s ease-in-out;
 
-  &:hover {
-    transform: scale(1.05);
-  }
+//   &:hover {
+//     transform: scale(1.05);
+//   }
 
-  &:active {
-    transform: scale(0.95);
-  }
+//   &:active {
+//     transform: scale(0.95);
+//   }
 
-  &.success {
-    background-color: #7dc38d;
-    color: white;
-  }
+//   &.success {
+//     background-color: #7dc38d;
+//     color: white;
+//   }
 
-  &.failure {
-    background-color: #ab5e66;
-    color: white;
-  }
-}
+//   &.failure {
+//     background-color: #ab5e66;
+//     color: white;
+//   }
+// }
 
 
 .button-fancy {
@@ -74,3 +74,13 @@
   background: var(--color);
   color: #fff;
 }
+
+// .button-fancy-success {
+//   @extend .button-fancy;
+//   --color: #1f3923;
+// }
+
+// .button-fancy-fail {
+//   @extend .button-fancy;
+//   --color: #631616;
+// }
