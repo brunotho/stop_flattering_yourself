@@ -1,7 +1,7 @@
 import React from 'react';
 import '../stylesheets/_button_styles.scss'
 
-function ExpandedSnippet({ snippet, onSubmit, game_session_id }) {
+function ExpandedSnippet({ snippet, onSubmit, game_session_id, onNext }) {
   const handleSuccess = () => {
     onSubmit(snippet.id, true);
   };
@@ -10,8 +10,10 @@ function ExpandedSnippet({ snippet, onSubmit, game_session_id }) {
     onSubmit(snippet.id, false);
   };
 
-  const handleClose = () => {
-    onSubmit(null, null);
+  const handleNext = () => {
+    if (onNext) {
+      onNext();
+    }
   };
 
   return (
@@ -29,16 +31,16 @@ function ExpandedSnippet({ snippet, onSubmit, game_session_id }) {
           <div className="result-button-container p-2" style={{ flexShrink: 0 }}>
             {game_session_id ? (
               <>
-                <button className="button-fancy" onClick={handleSuccess}>
+                <button className="button-fancy button-fancy-success" onClick={handleSuccess}>
                   :)
                 </button>
-                <button className="button-fancy" onClick={handleFailure}>
+                <button className="button-fancy button-fancy-fail" onClick={handleFailure}>
                   :(
                 </button>
               </>
             ) : (
-              <button className="button-fancy" onClick={handleClose}>
-                Close
+              <button className="button-fancy" onClick={handleNext}>
+                Next
               </button>
             )}
           </div>

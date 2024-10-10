@@ -6,28 +6,19 @@ export default function UserProfile({ initialUser = {}, languages = [] }) {
   const [errors, setErrors] = useState({});
   const [changingSensitiveInfo, setChangingSensitiveInfo] = useState(false);
 
-  console.log("user id:", user.id);
-
   const handleSensitiveInfoChange = (e) => {
     const { name, value } = e.target;
     if (name === "password" || name === "password_confirmation") {
-      if (value) {
-        setChangingSensitiveInfo(true);
-      } else {
-        setChangingSensitiveInfo(false);
-      }
+      setChangingSensitiveInfo(!!value);
     }
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     const formData = new FormData(e.target);
-
-    // Convert FormData to an object and exclude empty password fields
     const formObject = {};
     formData.forEach((value, key) => {
       if ((key === "password" || key === "password_confirmation") && !value) {
-        // Do not include empty password fields
         return;
       }
       formObject[key] = value;
@@ -62,28 +53,30 @@ export default function UserProfile({ initialUser = {}, languages = [] }) {
   };
 
   return (
-    <div>
+    <div className="container mt-4" style={{ maxWidth: '50vh' }}>
       {isEditing ? (
-        <form onSubmit={handleSubmit}>
-          {/* Name Field */}
-          <div>
-            <label htmlFor="name">Name</label>
+        <form onSubmit={handleSubmit} className="border p-4 rounded">
+          <h3 className="mb-3">Edit Profile</h3>
+
+          <div className="mb-3">
+            <label htmlFor="name" className="form-label">Name</label>
             <input
               type="text"
               id="name"
               name="name"
               defaultValue={user.name}
+              className="form-control"
             />
-            {errors.name && <span className="error">{errors.name.join(", ")}</span>}
+            {errors.name && <div className="text-danger">{errors.name.join(", ")}</div>}
           </div>
 
-          {/* Language Field */}
-          <div>
-            <label htmlFor="language">Language</label>
+          <div className="mb-3">
+            <label htmlFor="language" className="form-label">Language</label>
             <select
               id="language"
               name="language"
               defaultValue={user.language}
+              className="form-select"
             >
               {languages.map((language) => (
                 <option key={language} value={language}>
@@ -91,64 +84,58 @@ export default function UserProfile({ initialUser = {}, languages = [] }) {
                 </option>
               ))}
             </select>
-            {errors.language && (
-              <span className="error">{errors.language.join(", ")}</span>
-            )}
+            {errors.language && <div className="text-danger">{errors.language.join(", ")}</div>}
           </div>
 
-          {/* Password Fields */}
-          <div>
-            <label htmlFor="password">New Password (optional)</label>
+          <div className="mb-3">
+            <label htmlFor="password" className="form-label">New Password (optional)</label>
             <input
               type="password"
               id="password"
               name="password"
+              className="form-control"
               onChange={handleSensitiveInfoChange}
             />
-            {errors.password && (
-              <span className="error">{errors.password.join(", ")}</span>
-            )}
+            {errors.password && <div className="text-danger">{errors.password.join(", ")}</div>}
           </div>
 
-          <div>
-            <label htmlFor="password_confirmation">Confirm New Password</label>
+          <div className="mb-3">
+            <label htmlFor="password_confirmation" className="form-label">Confirm New Password</label>
             <input
               type="password"
               id="password_confirmation"
               name="password_confirmation"
+              className="form-control"
               onChange={handleSensitiveInfoChange}
             />
           </div>
 
-          {/* Current Password Field */}
           {changingSensitiveInfo && (
-            <div>
-              <label htmlFor="current_password">Current Password</label>
+            <div className="mb-3">
+              <label htmlFor="current_password" className="form-label">Current Password</label>
               <input
                 type="password"
                 id="current_password"
                 name="current_password"
+                className="form-control"
                 required
               />
               {errors.current_password && (
-                <span className="error">
-                  {errors.current_password.join(", ")}
-                </span>
+                <div className="text-danger">{errors.current_password.join(", ")}</div>
               )}
             </div>
           )}
 
-          {/* Form Buttons */}
-          <button type="submit">Save</button>
-          <button type="button" onClick={() => setIsEditing(false)}>
-            Cancel
-          </button>
+          <div className="d-flex justify-content-between">
+            <button type="submit" className="btn btn-primary">Save</button>
+            <button type="button" className="btn btn-secondary" onClick={() => setIsEditing(false)}>Cancel</button>
+          </div>
         </form>
       ) : (
-        <div>
-          <h2>{user.name}</h2>
-          <p>Language: {user.language}</p>
-          <button onClick={() => setIsEditing(true)}>Edit</button>
+        <div className="border p-4 rounded">
+          <h3 className="mb-3">{user.name}</h3>
+          <p><strong>Language:</strong> {user.language}</p>
+          <button className="btn btn-primary" onClick={() => setIsEditing(true)}>Edit Profile</button>
         </div>
       )}
     </div>

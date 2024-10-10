@@ -69,6 +69,11 @@ function SnippetsGame({ game_session_id = null, onSnippetComplete }) {
     fetchSnippets();
   }, [game_session_id]);
 
+  const handleNextSnippet = () => {
+    setSelectedSnippet(null);
+    fetchSnippets();
+  };
+
   const handleSubmit = async (snippet_id, success) => {
     if (!game_session_id || snippet_id === null) {
       setSelectedSnippet(null);
@@ -155,6 +160,7 @@ function SnippetsGame({ game_session_id = null, onSnippetComplete }) {
                 snippet={selectedSnippet}
                 onSubmit={handleSubmit}
                 game_session_id={game_session_id}
+                onNext={handleNextSnippet}
               />
             </div>
           ) : (
